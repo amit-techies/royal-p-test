@@ -1,0 +1,148 @@
+<div class="megamenu-block megamenu-block-{{ block.settings.menu.handle }}">
+  
+    <div class="menu-inner-block">
+      <button class="button button--primary megamenu-button">{{ block.settings.menu.title }} {{ 'expand-right.svg' | inline_asset_content }}</button>
+      <div class="megamenu-card">
+      <div class="navigation-card">
+        <nav role="navigation">
+          <ul class="linklist-main">
+            {%- for link in block.settings.menu.links -%}
+              <li class="link-levels link-level-1">
+                <a class="button button--secondary"
+                  href="{{ link.url }}"
+                  {% if link.active %}
+                    aria-current="page"
+                  {% endif %}
+                >
+                  {{ link.title }}
+                </a>
+  
+                {%- if link.links != blank -%}
+                  <ul class="linklist-main linklist-main-2">
+                    {%- for child_link in link.links -%}
+                      <li>
+                        <a class="button button--secondary"
+                          href="{{ child_link.url }}"
+                          {% if child_link.active %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{ child_link.title }}
+                        </a>
+  
+                        {%- if child_link.links != blank -%}
+                          <ul class="linklist-main linklist-main-3">
+                            {%- for grandchild_link in child_link.links -%}
+                              <li>
+                                <a class="button button--secondary"
+                                  href="{{ grandchild_link.url }}"
+                                  {% if grandchild_link.active %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  {{ grandchild_link.title }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {% else %}
+                  <ul class="linklist-main linklist-main-2">
+                    <li>
+                        <a class="button button--secondary"
+                          href="{{ link.url }}"
+                          {% if link.active %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{ link.title }}
+                        </a>
+                    </li>
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      </div>
+      <div class="menu-card">
+        {% if block.settings.heading != blank %}
+          <h4>{{ block.settings.heading }}</h4>
+        {% endif %}
+        {% if block.settings.subheading != blank %}
+          <div class="rte">{{ block.settings.subheading }}</div>
+        {% endif %}
+        <div class="grid grid--3-col brand-logo">
+          {% content_for 'blocks' %}
+        </div>
+        {% if block.settings.image != blank %}
+          <div class="menu-card-feature-image">
+          {% render 'image', image: block.settings.image %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "tag" : null,
+  "name": "Menu",
+  "class" : "megamenu-list",
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "settings": [
+     {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label" : "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label" : "SubHeading"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label" : "Card Feature Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Menu"
+    },
+    {
+      "name": "Mega Menu",
+      "blocks": [
+        {
+          "type": "image",
+        },
+        {
+          "type": "image",
+        },
+        {
+          "type": "image",
+        },
+        {
+          "type": "image",
+        },
+        {
+          "type": "image",
+        },
+        {
+          "type": "image",
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

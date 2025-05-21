@@ -1,0 +1,33 @@
+<a class="button button-small button--secondary" href="{{ block.settings.url }}">
+  {% if block.settings.image != blank %}<img src="{{ block.settings.image | img_url: 'master' }}" loading="lazy" height="20" width="20" />{% endif %}
+  {% if block.settings.richtext != blank %}<span>{{ block.settings.richtext }}</span>{% endif %}
+</a>
+
+{% schema %}
+  {
+    "class": "header-link-top",
+    "name": "Menu with symbol",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "image"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "richtext",
+        "label": "Link Title"
+      },
+      {
+        "type": "url",
+        "id": "url",
+        "label": "Link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Header Menu"
+      }
+    ]
+  }
+{% endschema %}

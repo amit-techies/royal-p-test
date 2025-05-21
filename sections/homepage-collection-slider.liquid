@@ -1,0 +1,139 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<style>
+      .collection_category_images {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 10px;
+    }
+
+    .collection_category_images h2 {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 100%;
+        color: rgba(0, 0, 0, 1);
+        padding: 13px 6px;
+          margin: 0;
+    }
+
+    .collection_category_images a {
+        text-decoration: none;
+        text-align: center;
+    }
+    .collection_category_images:last-child {
+      border: none;
+      height: auto;
+      align-content: center;
+  }
+
+  .collection_category_images:last-child img {
+      max-width: 65px;
+  }
+
+  .collection_category_images:last-child h2 {
+      margin-top: 15px;
+  }
+</style>
+<div class="isolate">
+  <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+    <div class="page-width">
+      <div class="category_collection_container swiper slidemySwiper-{{ section.id }}">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="collection_category_images swiper-slide">
+              <a href="{{ block.settings.link }}">
+                {% render 'image', image: block.settings.image %}
+                <h2>{{ block.settings.head }}</h2>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var swiper = new Swiper(".slidemySwiper-{{ section.id }}", {
+  slidesPerView: 7.65,
+  freeMode: true,
+  spaceBetween: 26
+  });
+</script>
+{% schema %}
+  {
+    "name": "homepage collection",
+    "class": "homepage-collection-main",
+    "settings": [
+      {
+    "type": "color_scheme",
+    "id": "color_scheme",
+    "label": "t:sections.all.colors.label",
+    "default": "scheme-1"
+  },
+  {
+    "type": "header",
+    "content": "t:sections.all.padding.section_padding_heading"
+  },
+  {
+    "type": "range",
+    "id": "padding_top",
+    "min": 0,
+    "max": 100,
+    "step": 4,
+    "unit": "px",
+    "label": "t:sections.all.padding.padding_top",
+    "default": 40
+  },
+  {
+    "type": "range",
+    "id": "padding_bottom",
+    "min": 0,
+    "max": 100,
+    "step": 4,
+    "unit": "px",
+    "label": "t:sections.all.padding.padding_bottom",
+    "default": 52
+  }
+    ],
+  "blocks": [
+  {
+    "type": "collection",
+    "name": "collection category",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "collection Category Images"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "head",
+        "label": "Heading"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "collection Category Link"
+      }
+    ]
+  }
+],
+"max_blocks": 20,
+"presets": [
+  {
+    "name": "collection category",
+    "category": "Custom"
+  }
+]
+  }
+{% endschema %}

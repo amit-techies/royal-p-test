@@ -1,0 +1,234 @@
+.menu-top-container {
+  display: flex;
+  column-gap: 3.5rem;
+  align-items: center;
+}
+.header-navigation-main {
+  display: flex;
+  column-gap: 0.6rem;
+  align-items: center;
+}
+.button-small {
+  min-height: 3.4rem;
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
+  column-gap: 1rem;
+  font-weight: 500;
+}
+.button-small:not([disabled]):after {
+  box-shadow: unset;
+  transition: ease all 0.3s;
+}
+.button-small:not([disabled]):hover:after {
+  box-shadow: 0 0 0 1px #811a1e80;
+}
+.megamenu-block-container .megamenu-content{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 100%;
+  border-top: 1px solid #4747471a;
+  padding-top: 1.6rem;
+  padding-bottom: 1.6rem;
+  flex-direction: column;
+  row-gap: 1rem;
+  min-height: 47rem;
+  overflow: hidden;
+}
+
+.megamenu-container {
+  position: relative;
+  border-top: 1px solid #4747471a;
+  border-bottom: 1px solid #4747471a;
+}
+
+.section-header ~ .section-megamenu {
+  z-index: 2;
+}
+
+
+.megamenu-button {
+  width: 23rem;
+  background-color: transparent;
+  color: #000;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  font-size: 1.6rem;
+}
+.megamenu-button:after,
+.megamenu-button:before {
+  content: unset;
+}
+
+.megamenu-button.active {
+  color: rgb(var(--color-button-text));
+  background-color: rgba(var(--color-button), var(--alpha-button-background));
+}
+.megamenu-card {
+  position: absolute;
+  left: 24rem;
+  top: -1.6rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: ease all 0.3s;
+  display: flex;
+  width: calc(100% - 23rem);
+  justify-content: space-between;
+}
+.megamenu-block:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.megamenu-block-container .page-width {
+  width: 100%;
+}
+.has-megamenu {
+  position: relative;
+}
+.linklist-main {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.megamenu-card.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.linklist-main {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navigation-card {
+  background: #fbfbf9;
+  padding: 1.6rem 0.8rem;
+  display: inline-block;
+  min-height: 47.3rem;
+}
+
+.link-level-1 > .button {
+  width: 23rem;
+}
+
+.link-level-1 .button:after,
+.link-level-1 .button:before {
+  content: unset;
+}
+
+.linklist-main-2 {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: ease all 0.3s;
+  top: 0;
+  left: 28rem;
+  height: calc(100% - 3rem);
+  overflow: auto;
+  background: rgb(var(--color-background));
+  width: 28rem;
+  margin-top: 1.6rem;
+}
+.linklist-main-2::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+  border-radius: 0.4rem;
+}
+
+.linklist-main-2::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f5f5f5;
+}
+
+.linklist-main-2::-webkit-scrollbar-thumb {
+  background-color: #a2936e8c;
+}
+.linklist-main .link-level-1:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.navigation-card .linklist-main-2 .button {
+  min-height: 5rem;
+}
+.link-level-1.active .linklist-main-2{
+  visibility: visible;
+  opacity: 1;
+}
+.menu-card {
+  flex: 0 0 calc(100% - 62.7rem);
+}
+.menu-card h4 {
+  flex: 0 0 37.2rem;
+  padding-top: 3.2rem;
+}
+
+.menu-card .grid {
+  margin-bottom: 4rem;
+}
+.navigation-card .link-levels .button {
+  font-size: 1.4rem;
+  text-align: left;
+  justify-content: flex-start;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+  min-height: 4.3rem;
+  background: transparent;
+  transition: ease all 0.3s;
+}
+
+.link-level-1.active > .button {
+  box-shadow: 0 0 6px #0000000f;
+  background-color: rgba(var(--color-button), var(--alpha-button-background));
+  font-weight: 500;
+}
+.media-wrapper img {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.menu-card .menu-card-feature-image .media-wrapper {
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+.header-link-top:last-child .button-small {
+  background: #d4d4d433;
+  min-height: 3.8rem;
+  color: #701e1a;
+}
+
+.menu-toggle-button {
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+  min-width: 19rem;
+  justify-content: space-between;
+  font-size: 1.4rem;
+  font-weight: 600;
+  min-height: 4rem;
+}
+
+.navigation-card .link-level-1 > .button {
+  transition: none;
+}
+.megamenu-block-container .megamenu-overlay:empty {
+  content: "";
+  position: fixed;
+  bottom: 0;
+  height: 50%;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  background: rgb(0 0 0 / 50%);
+  transition: ease all 0.3s;
+  cursor: pointer;
+  display: block
+}
+.header-link-top:last-child .button-small:not([disabled]):hover:after {
+  box-shadow: unset;
+}
+.navigation-card .linklist-main-2 .button {
+    font-size: 1.6rem;
+    font-weight: 500;
+}

@@ -1,0 +1,113 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div class="isolate">
+  <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+    <div class="page-width">
+      <div class="shop-by-brand">
+        <div class="brand-header">
+          <h2>{{ section.settings.title }}</h2>
+          {% if section.settings.view_all_link != blank %}
+            <a class="brand-view-all" href="{{ section.settings.view_all_link }}"
+              >View More {{ 'view-more-arrow.svg' | inline_asset_content -}}
+            </a>
+          {% endif %}
+        </div>
+
+        <div class="brand-grid grid grid--6-col-desktop">
+          {% for block in section.blocks %}
+            {% if block.settings.logo != blank %}
+              <a href="{{ block.settings.link }}" class="brand-item grid__item" {{ block.shopify_attributes }}>
+              {% render 'image', image: block.settings.logo %}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Shop by Brand",
+  "class": "home-page-brands",
+  "settings": [
+     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shop by Brand"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View More Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Brand Logo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Brand Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Shop by Brand",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

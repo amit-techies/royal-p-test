@@ -1,0 +1,16 @@
+  <div class="homepage-baby-left">
+  {% if section.settings.left_image %}
+    <div class="homepage-baby-image">
+      <img loading="lazy" src="{{ section.settings.left_image | img_url: 'master' }}" alt="homepage and Baby Image" />
+    </div>
+  {% endif %}
+  <div class="homepage-baby-text-block">
+    <h2 class="homepage-baby-heading">{{ section.settings.heading }}</h2>
+    <p class="homepage-baby-subtext">{{ section.settings.subtext }}</p>
+    {% if section.settings.button_label and section.settings.button_link %}
+      <a href="{{ section.settings.button_link }}" class="homepage-baby-button">
+        {{ section.settings.button_label }} {{ 'view-more-arrow.svg' | inline_asset_content }}
+      </a>
+    {% endif %}
+  </div>
+</div>

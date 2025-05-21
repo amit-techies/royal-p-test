@@ -1,0 +1,59 @@
+<div class="custom-product-card {{ class }}">
+  <div class="custom-product-card-inner">
+    <!-- Product Image -->
+    <a href="{{ product.url }}" class="custom-product-image-link">
+      {% if product.compare_at_price > product.price %}
+        {% assign discount = product.compare_at_price | minus: product.price %}
+        {% assign discount_percentage = discount | times: 100 | divided_by: product.compare_at_price | round %}
+
+        <div class="custom-discount-badge">
+          <span class="discount-percentage">{{ discount_percentage }}%</span><br>
+          <span class="discount-label">OFF</span>
+        </div>
+      {% endif %}
+      {% render 'image', image: product.featured_image, class: 'custom-product-image' %}
+    </a>
+
+    <!-- Product Type -->
+    {% if product.type %}
+      <div class="custom-product-type">
+        {{ product.type }}
+      </div>
+    {% endif %}
+
+    <!-- Product Title -->
+    <h3 class="custom-product-title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <!-- Metafield: Used For -->
+    {% comment %}
+      {% if product.metafields.custom.used_for != blank %}
+        <div class="custom-used-for">
+          Used for: <span>{{ product.metafields.custom.used_for.value }}</span>
+        </div>
+      {% endif %}
+    {% endcomment %}
+
+    <!-- Price -->
+    <div class="custom-price-wrapper">
+      <span class="custom-price">{{ product.price | money }}</span>
+      {% if product.compare_at_price > product.price %}
+        <span class="custom-compare-price">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+    </div>
+
+    <!-- Add to Cart -->
+    {% if product.available %}
+      <form method="post" action="/cart/add">
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <button type="submit" class="custom-add-to-cart">
+          {{ 'add-to-cart.svg' | inline_asset_content -}}
+          Add to cart
+        </button>
+      </form>
+    {% else %}
+      <div class="custom-out-of-stock">Out of stock</div>
+    {% endif %}
+  </div>
+</div>

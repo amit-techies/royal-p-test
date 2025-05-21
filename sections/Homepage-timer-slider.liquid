@@ -1,0 +1,245 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<style>
+    .limited-time-deals {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background: url('{{ section.settings.image_back | img_url : "master" }}');
+    border-radius: 12px;
+    column-gap: 30px;
+    flex-wrap: wrap;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 2rem;
+    padding-right: 2.9rem;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .view-more-deals.button:after,
+  .view-more-deals.button:before{
+    content: unset;
+  }
+  .view-more-deals.button:hover {
+    background: #6F171A;
+}
+</style>
+<div class="isolate">
+  <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+    <div class="page-width">
+      <div class="limited-time-deals">
+        <div class="countdown-container">
+          <h2>{{ section.settings.title_main }}</h2>
+
+          <h3>{{ section.settings.title }}</h3>
+          <p>{{ section.settings.text }}</p>
+
+          <div class="clock-container">
+            <div class="clock-col">
+              <div class="clock-days clock-timer">&nbsp;</div>
+              <div class="clock-label label-days">Days</div>
+            </div>
+            <div class="clock-col">
+              <div class="clock-hours clock-timer">&nbsp;</div>
+              <div class="clock-label label-hour">Hours</div>
+            </div>
+            <div class="clock-col">
+              <div class="clock-minutes clock-timer">&nbsp;</div>
+              <div class="clock-label label-minutes">Mins</div>
+            </div>
+          </div>
+
+          {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="view-more-deals button">
+              {{ section.settings.button_label }}
+              {{ 'view-more-arrow.svg' | inline_asset_content -}}
+            </a>
+          {% endif %}
+        </div>
+
+        <div class="timer-slider-pr swiper mySwiper-timer-slider">
+          {% assign collection = collections[section.settings.collection] %}
+          <div class="swiper-wrapper">
+            {% for product in collection.products limit: 12 %}
+              {% render 'custom-grid', product: product, class: 'swiper-slide' %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var swiper = new Swiper(".mySwiper-timer-slider", {
+  slidesPerView: 3.7,
+  freeMode: true,
+  spaceBetween: 12
+  });
+
+
+
+  window.onload = function () {
+    const controller = new AbortController();
+    // Set the date we're counting down to
+    const countDownDate = new Date("{{section.settings.end_date}}").getTime();
+    const clockDaysElement = document.querySelector(".clock-days");
+    const clockHoursElement = document.querySelector(".clock-hours");
+    const clockMinutesElement = document.querySelector(".clock-minutes");
+    const clockSecondsElement = document.querySelector(".clock-seconds");
+    // Create an animation callback every second:
+    animationInterval(1000, controller.signal, (time) => {
+      // Get today's date and time
+      let now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      let distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      let hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+
+      // Display the results
+      clockDaysElement.textContent = days;
+      clockHoursElement.textContent = hours;
+      clockMinutesElement.textContent = minutes;
+
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        controller.abort();
+        document.querySelector(".clock-container").innerHTML = "EXPIRED";
+      }
+    });
+  };
+
+  function animationInterval(ms, signal, callback) {
+    // Prefer currentTime, as it'll better sync animtions queued in the
+    // same frame, but if it isn't supported, performance.now() is fine.
+    const start = document.timeline
+      ? document.timeline.currentTime
+      : performance.now();
+
+    function frame(time) {
+      if (signal.aborted) return;
+      callback(time);
+      scheduleFrame(time);
+    }
+
+    function scheduleFrame(time) {
+      const elapsed = time - start;
+      const roundedElapsed = Math.round(elapsed / ms) * ms;
+      const targetNext = start + roundedElapsed + ms;
+      const delay = targetNext - performance.now();
+      setTimeout(() => requestAnimationFrame(frame), delay);
+    }
+
+    scheduleFrame(start);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Homepage-timer-slider",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+         {
+    "type": "color_scheme",
+    "id": "color_scheme",
+    "label": "t:sections.all.colors.label",
+    "default": "scheme-1"
+  },
+  {
+    "type": "header",
+    "content": "t:sections.all.padding.section_padding_heading"
+  },
+  {
+    "type": "range",
+    "id": "padding_top",
+    "min": 0,
+    "max": 100,
+    "step": 2,
+    "unit": "px",
+    "label": "t:sections.all.padding.padding_top",
+    "default": 40
+  },
+  {
+    "type": "range",
+    "id": "padding_bottom",
+    "min": 0,
+    "max": 100,
+    "step": 2,
+    "unit": "px",
+    "label": "t:sections.all.padding.padding_bottom",
+    "default": 52
+  },
+     {
+      "type": "image_picker",
+      "id": "image_back",
+      "label": "Background Image"
+    },
+    {
+      "type": "textarea",
+      "id": "title_main",
+      "label": "Title",
+      "default": "Limited Time Deals"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Limited Time Deals"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Grab the Deal !"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End Date",
+      "default": "2024-12-31"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage-timer-slider",
+      "category": "promotional"
+    }
+  ]
+}
+{% endschema %}

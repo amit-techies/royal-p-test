@@ -1,0 +1,109 @@
+  {% for i in (1..6) %}
+    {% assign image_key = 'image' | append: i %}
+    {% assign link_key = 'link' | append: i %}
+    {% assign image_obj = block.settings[image_key] %}
+    {% assign link_obj = block.settings[link_key] %}
+    {% if image_obj %}
+      <div class="grid__item">
+        {% render 'image', image: image_obj, link: link_obj %}
+      </div>
+    {% endif %}
+  {% endfor %}
+
+{% schema %}
+{
+  "tag" : null,
+  "name": "Images",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand logo"
+    },
+    {
+      "type": "image_picker",
+      "id" : "image1",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Brand logo"
+    },
+    {
+      "type": "image_picker",
+      "id" : "image2",
+      "label": "Image"
+     },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Brand logo"
+    },
+    {
+      "type": "image_picker",
+      "id" : "image3",
+      "label": "Image"
+     },
+    {
+      "type": "url",
+      "id": "link3",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Brand logo"
+    },
+    {
+      "type": "image_picker",
+      "id" : "image4",
+      "label": "Image"
+     },
+    {
+      "type": "url",
+      "id": "link4",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Brand logo"
+    },
+    {
+      "type": "image_picker",
+      "id" : "image5",
+      "label": "Image"
+     },
+    {
+      "type": "url",
+      "id": "link5",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Brand logo"
+    },
+    {
+      "type": "image_picker",
+      "id" : "image6",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link6",
+      "label": "Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Images"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,109 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% assign collection = collections[section.settings.collection] %}
+<div class="isolate">
+  <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+    <div class="page-width">
+      <div class="ctupperpart">
+        <h2 class="homepage-product-heading"> {{ 'trending-heading.svg' | inline_asset_content }} {{ section.settings.heading }}</h2>
+
+        <a href="{{ collection.url }}" class="homepage-product-button">
+          View More {{ 'view-more-arrow.svg' | inline_asset_content }}
+        </a>
+      </div>
+      <div class="ctproductgrid">
+        {% if collection.products.size > 0 %}
+          <div class="homepage-product-grid columns-{{ columns }} swiper mySwiper-{{ collection.handle }}-{{ section.id }}">
+            <div class="swiper-wrapper">
+              {% for product in collection.products limit: 12 %}
+                {% render 'custom-grid', product: product, class: 'swiper-slide' %}
+              {% endfor %}
+            </div>
+            <div class="slider__pagination"></div>
+          </div>
+
+        {% else %}
+          <p class="homepage-grid-no-products">No products found in this collection.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var swiper = new Swiper(".mySwiper-{{ collection.handle }}-{{ section.id }}", {
+  slidesPerView: 5,
+  freeMode: true,
+  spaceBetween: 20,
+  pagination: {
+  el: '.slider__pagination',
+  clickable: true,
+  }
+  });
+</script>
+
+{% schema %}
+{
+"name": "Product Grid",
+  "class": "product-slider-grid",
+"settings": [
+   {
+    "type": "color_scheme",
+    "id": "color_scheme",
+    "label": "t:sections.all.colors.label",
+    "default": "scheme-1"
+  },
+  {
+    "type": "header",
+    "content": "t:sections.all.padding.section_padding_heading"
+  },
+  {
+    "type": "range",
+    "id": "padding_top",
+    "min": 0,
+    "max": 100,
+    "step": 2,
+    "unit": "px",
+    "label": "t:sections.all.padding.padding_top",
+    "default": 40
+  },
+  {
+    "type": "range",
+    "id": "padding_bottom",
+    "min": 0,
+    "max": 100,
+    "step": 2,
+    "unit": "px",
+    "label": "t:sections.all.padding.padding_bottom",
+    "default": 52
+  },
+{
+"type": "text",
+"id": "heading",
+"label": "Heading",
+"default": "Trending Product"
+},
+{
+"type": "collection",
+"id": "collection",
+"label": "Collection"
+}
+],
+"presets": [
+{
+"name": "Product Grid"
+}
+]
+}
+{% endschema %}
